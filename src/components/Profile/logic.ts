@@ -1,5 +1,5 @@
 import hooks from '../../hooks';
-import { useWallet } from '../../wallet';
+import { useWallet } from '../../contexts/wallet';
 
 const useLogic = () => {
     const { authenticated } = hooks.auth.useAuth();

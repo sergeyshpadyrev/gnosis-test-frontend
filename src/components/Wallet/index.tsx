@@ -1,4 +1,4 @@
-import { useWallet } from '../../wallet';
+import { useWallet } from '../../contexts/wallet';
 
 const Wallet = () => {
     const wallet = useWallet();

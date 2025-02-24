@@ -1,7 +1,7 @@
 import './App.css';
 import Profile from './components/Profile';
 import Wallet from './components/Wallet';
-import { WalletProvider } from './wallet';
+import { WalletProvider } from './contexts/wallet';
 
 function App() {
     return (
