@@ -1,21 +1,25 @@
-import Info from './Info';
-import useLogic from './logic';
+import hooks from '../../hooks';
 
 const Wallet = () => {
-    const { connect, connected, loading } = useLogic();
+    const wallet = hooks.wallet.useWallet();
 
     const renderWallet = () => {
-        if (loading) return <div>Loading...</div>;
-        if (!connected) {
+        if (wallet.loading) return <div>Loading...</div>;
+        if (!wallet.connected) {
             return (
                 <div className="flex flex-col gap-4">
                     <div>No wallet is currently connected</div>
-                    <button onClick={connect}>Connect</button>
+                    <button onClick={wallet.connect}>Connect</button>
                 </div>
             );
         }
 
-        return <Info />;
+        return (
+            <div>
+                <div>Address: {wallet.address}</div>
+                <div>Balance: {wallet.balance} wei</div>
+            </div>
+        );
     };
 
     return (

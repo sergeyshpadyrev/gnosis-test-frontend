@@ -2,8 +2,8 @@ import hooks from '../../hooks';
 
 const useLogic = () => {
     const { authenticated } = hooks.auth.useAuth();
-    const { walletConnected } = hooks.wallet.useWalletConnection();
-    return { authenticated, walletConnected };
+    const wallet = hooks.wallet.useWallet();
+    return { authenticated, wallet };
 };
 
 export default useLogic;

@@ -1,76 +1,57 @@
-import { useCallback, useEffect, useState } from 'react';
-import utils, { windowWithProvider } from './utils';
 import { BrowserProvider, Eip1193Provider } from 'ethers';
+import { useCallback, useEffect, useState } from 'react';
 
-const useWalletAddress = () => {
+export const loadProvider = async (): Promise<BrowserProvider | null> => {
+    const windowWithProvider = window as typeof window & { ethereum: Eip1193Provider };
+    if (!windowWithProvider.ethereum) return null;
+    return new BrowserProvider(windowWithProvider.ethereum);
+};
+
+const useWallet = () => {
     const [address, setAddress] = useState<string>();
-    const [loading, setLoading] = useState<boolean>(true);
-
-    useEffect(() => {
-        const loadAddress = async () => {
-            const address = await utils.getUserAddress();
-            setAddress(address);
-            setLoading(false);
-        };
-        loadAddress();
-    }, []);
-
-    return { address, addressLoading: loading };
-};
-
-const useWalletBalance = (address: string) => {
-    const [balance, setBalance] = useState<bigint | undefined>();
-    const [loading, setLoading] = useState<boolean>(true);
-
-    useEffect(() => {
-        const loadBalance = async () => {
-            const provider = utils.getProvider();
-            const balance = await provider?.getBalance(address);
-            setBalance(balance);
-            setLoading(false);
-        };
-        loadBalance();
-    }, []);
-
-    return { balance, balanceLoading: loading };
-};
-
-const useWalletConnection = () => {
+    const [balance, setBalance] = useState<bigint>();
     const [connected, setConnected] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
 
-    useEffect(() => {
-        const loadConnection = async () => {
-            if (!windowWithProvider.ethereum) {
-                setLoading(false);
-                return;
-            }
-
-            const provider = new BrowserProvider(windowWithProvider.ethereum);
-            const accounts = await provider.listAccounts();
-            setConnected(accounts.length > 0);
+    const load = useCallback(async () => {
+        const provider = await loadProvider();
+        if (!provider) {
             setLoading(false);
-        };
-        loadConnection();
+            return;
+        }
+
+        const accounts = await provider.listAccounts();
+        const connected = accounts.length > 0;
+        setConnected(connected);
+
+        if (connected) {
+            const signer = await provider.getSigner();
+            setAddress(signer.address);
+
+            const balance = await provider?.getBalance(signer.address);
+            setBalance(balance);
+        }
+
+        setLoading(false);
+    }, []);
+
+    useEffect(() => {
+        load();
     }, []);
 
     const connect = useCallback(async () => {
-        if (windowWithProvider.ethereum) {
-            const provider = new BrowserProvider(windowWithProvider.ethereum);
-            await provider.getSigner();
+        setLoading(true);
 
-            const accounts = await provider.listAccounts();
-            setConnected(accounts.length > 0);
+        const provider = await loadProvider();
+        if (!provider) {
+            alert('No browser wallet found');
             return;
         }
-        throw new Error('Implement wallet connect');
+
+        await provider.getSigner();
+        load();
     }, []);
-    return { connected, connect, loading };
+    return { address, balance, connected, connect, loading };
 };
 
-const useWalletSignIn = () => {
-    const { createSignInMessage } = utils;
-    return { createSignInMessage };
-};
-
-export default { useWalletAddress, useWalletBalance, useWalletConnection, useWalletSignIn };
+export default { useWallet };

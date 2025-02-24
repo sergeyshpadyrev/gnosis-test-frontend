@@ -1,10 +1,10 @@
 import useLogic from './logic';
 
 const Profile = () => {
-    const { authenticated, walletConnected } = useLogic();
+    const { authenticated, wallet } = useLogic();
 
     const renderProfile = () => {
-        if (!walletConnected)
+        if (!wallet.connected)
             return (
                 <div className="flex flex-col gap-4">
                     <div>No wallet connected</div>
