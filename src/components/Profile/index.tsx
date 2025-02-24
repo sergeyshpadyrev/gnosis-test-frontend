@@ -1,10 +1,12 @@
-import useLogic from './logic';
+import { useAuth } from '../../contexts/auth';
+import { useWallet } from '../../contexts/wallet';
 
 const Profile = () => {
-    const { authenticated, wallet } = useLogic();
+    const authentication = useAuth();
+    const wallet = useWallet();
 
     const renderProfile = () => {
-        if (wallet.loading) return <div>Loading...</div>;
+        if (authentication.loading || wallet.loading) return <div>Loading...</div>;
         if (!wallet.connected)
             return (
                 <div className="flex flex-col gap-4">
@@ -13,7 +15,7 @@ const Profile = () => {
                 </div>
             );
 
-        if (!authenticated)
+        if (!authentication.token)
             return (
                 <div className="flex flex-col gap-4">
                     <div>Not signed in yet</div>
@@ -21,7 +23,7 @@ const Profile = () => {
                 </div>
             );
 
-        return <div>...</div>;
+        return <div>Signed in</div>;
     };
 
     return (
