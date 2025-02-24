@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import utils from './utils';
+import utils, { windowWithProvider } from './utils';
+import { BrowserProvider, Eip1193Provider } from 'ethers';
 
 const useWalletAddress = () => {
     const [address, setAddress] = useState<string>();
@@ -35,10 +36,36 @@ const useWalletBalance = (address: string) => {
 };
 
 const useWalletConnection = () => {
-    const provider = utils.getProvider();
+    const [connected, setConnected] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
 
-    const connectWallet = useCallback(() => {}, []);
-    return { connectWallet, walletConnected: !!provider };
+    useEffect(() => {
+        const loadConnection = async () => {
+            if (!windowWithProvider.ethereum) {
+                setLoading(false);
+                return;
+            }
+
+            const provider = new BrowserProvider(windowWithProvider.ethereum);
+            const accounts = await provider.listAccounts();
+            setConnected(accounts.length > 0);
+            setLoading(false);
+        };
+        loadConnection();
+    }, []);
+
+    const connect = useCallback(async () => {
+        if (windowWithProvider.ethereum) {
+            const provider = new BrowserProvider(windowWithProvider.ethereum);
+            await provider.getSigner();
+
+            const accounts = await provider.listAccounts();
+            setConnected(accounts.length > 0);
+            return;
+        }
+        throw new Error('Implement wallet connect');
+    }, []);
+    return { connected, connect, loading };
 };
 
 const useWalletSignIn = () => {

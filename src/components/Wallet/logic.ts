@@ -1,8 +1,8 @@
 import hooks from '../../hooks';
 
 const useLogic = () => {
-    const { connectWallet, walletConnected } = hooks.wallet.useWalletConnection();
-    return { connectWallet, walletConnected };
+    const { connect, connected, loading } = hooks.wallet.useWalletConnection();
+    return { connect, connected, loading };
 };
 
 export default useLogic;

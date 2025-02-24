@@ -3,7 +3,8 @@ import { SiweMessage } from 'siwe';
 
 const domain = 'localhost:3000'; // TODO: get from env
 const uri = `http://${domain}`; // TODO: get from env
-const windowWithProvider = window as typeof window & { ethereum: Eip1193Provider };
+
+export const windowWithProvider = window as typeof window & { ethereum: Eip1193Provider };
 
 const getProvider = () => {
     if (windowWithProvider.ethereum) return new BrowserProvider(windowWithProvider.ethereum);
