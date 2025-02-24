@@ -1,7 +1,6 @@
 Wallet:
 - Connect metamask wallet
-- Create wallet
-- Sign in with 12 words
+- If no metamask, show error
 
 Profile: 
 - Sign in with wallet
