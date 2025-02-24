@@ -1,3 +1,4 @@
-import ethereum from './ethereum';
+import auth from './auth';
+import ethereum from './wallet';
 
-export default { ethereum };
+export default { auth, ethereum };

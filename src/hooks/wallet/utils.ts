@@ -38,5 +38,6 @@ const createSignInMessage = async () => {
 
 export default {
     createSignInMessage,
+    getProvider,
     getUserAddress,
 };

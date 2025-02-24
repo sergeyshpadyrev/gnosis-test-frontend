@@ -1,11 +1,6 @@
 import { useEffect, useState } from 'react';
 import utils from './utils';
 
-const useSignIn = () => {
-    const { createSignInMessage } = utils;
-    return { createSignInMessage };
-};
-
 const useWalletAddress = () => {
     const [address, setAddress] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(true);
@@ -22,4 +17,14 @@ const useWalletAddress = () => {
     return { address, addressLoading: loading };
 };
 
-export default { useSignIn, useWalletAddress };
+const useWalletConnection = () => {
+    const provider = utils.getProvider();
+    return { walletConnected: !!provider };
+};
+
+const useWalletSignIn = () => {
+    const { createSignInMessage } = utils;
+    return { createSignInMessage };
+};
+
+export default { useWalletAddress, useWalletConnection, useWalletSignIn };
