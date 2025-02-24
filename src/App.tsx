@@ -1,14 +1,16 @@
 import './App.css';
-import { useWalletAddress } from './hooks/ethereum';
+import Profile from './components/Profile';
+import Wallet from './components/Wallet';
 
 function App() {
-    const { address, addressLoading } = useWalletAddress();
-    if (addressLoading) return <div>Loading...</div>;
-
-    const connectTitle = address ? `Connect with ${address}` : 'Connect';
     return (
-        <div>
-            <div>{connectTitle}</div>
+        <div className="flex flex-col gap-4">
+            <div className="border-1 rounded-lg p-4 flex flex-col gap-4">
+                <Wallet />
+            </div>
+            <div className="border-1 rounded-lg p-4 flex flex-col gap-4">
+                <Profile />
+            </div>
         </div>
     );
 }

@@ -7,23 +7,27 @@ const windowWithProvider = window as typeof window & { ethereum: Eip1193Provider
 
 const getProvider = () => {
     if (windowWithProvider.ethereum) return new BrowserProvider(windowWithProvider.ethereum);
-    throw new Error('Ethereum provider not found');
+    return undefined;
 };
 
 const getSigner = async () => {
     const provider = getProvider();
+    if (!provider) return undefined;
+
     return provider.getSigner();
 };
 
 const getUserAddress = async () => {
     const signer = await getSigner();
+    if (!signer) return undefined;
     return signer.getAddress();
 };
 
 const createSignInMessage = async () => {
     const signer = await getSigner();
-    const userAddress = await getUserAddress();
+    if (!signer) throw new Error("Can't sign message");
 
+    const userAddress = await getUserAddress();
     const message = new SiweMessage({
         address: userAddress,
         chainId: 1,
