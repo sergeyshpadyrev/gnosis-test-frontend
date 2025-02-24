@@ -1,0 +1,7 @@
+Wallet:
+- Connect metamask wallet
+- Create wallet
+- Sign in with 12 words
+
+Profile: 
+- Sign in with wallet
