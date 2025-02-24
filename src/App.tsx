@@ -1,17 +1,20 @@
 import './App.css';
 import Profile from './components/Profile';
 import Wallet from './components/Wallet';
+import { WalletProvider } from './wallet';
 
 function App() {
     return (
-        <div className="flex flex-col gap-8">
-            <div className="border-1 rounded-lg p-4 flex flex-col gap-4">
-                <Wallet />
+        <WalletProvider>
+            <div className="flex flex-col gap-8">
+                <div className="border-1 rounded-lg p-4 flex flex-col gap-4">
+                    <Wallet />
+                </div>
+                <div className="border-1 rounded-lg p-4 flex flex-col gap-4">
+                    <Profile />
+                </div>
             </div>
-            <div className="border-1 rounded-lg p-4 flex flex-col gap-4">
-                <Profile />
-            </div>
-        </div>
+        </WalletProvider>
     );
 }
 

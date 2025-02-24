@@ -4,6 +4,7 @@ const Profile = () => {
     const { authenticated, wallet } = useLogic();
 
     const renderProfile = () => {
+        if (wallet.loading) return <div>Loading...</div>;
         if (!wallet.connected)
             return (
                 <div className="flex flex-col gap-4">

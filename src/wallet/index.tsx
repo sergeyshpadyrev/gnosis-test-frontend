@@ -1,20 +1,19 @@
 import { BrowserProvider, Eip1193Provider } from 'ethers';
-import { useCallback, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { WalletContextType } from './types';
 
-export const loadProvider = async (): Promise<BrowserProvider | null> => {
-    const windowWithProvider = window as typeof window & { ethereum: Eip1193Provider };
-    if (!windowWithProvider.ethereum) return null;
-    return new BrowserProvider(windowWithProvider.ethereum);
-};
+const windowWithProvider = window as typeof window & { ethereum: Eip1193Provider };
+const provider = windowWithProvider.ethereum ? new BrowserProvider(windowWithProvider.ethereum) : undefined;
 
-const useWallet = () => {
+const WalletContext = createContext<WalletContextType>({ loading: true });
+
+export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
     const [address, setAddress] = useState<string>();
     const [balance, setBalance] = useState<bigint>();
     const [connected, setConnected] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
 
     const load = useCallback(async () => {
-        const provider = await loadProvider();
         if (!provider) {
             setLoading(false);
             return;
@@ -42,7 +41,6 @@ const useWallet = () => {
     const connect = useCallback(async () => {
         setLoading(true);
 
-        const provider = await loadProvider();
         if (!provider) {
             alert('No browser wallet found');
             return;
@@ -51,7 +49,13 @@ const useWallet = () => {
         await provider.getSigner();
         load();
     }, []);
-    return { address, balance, connected, connect, loading };
+
+    const value: WalletContextType = useMemo(
+        () => ({ address, balance, canConnect: !!provider, connected, connect, loading }),
+        [address, balance, connect, connected, loading],
+    );
+
+    return <WalletContext.Provider value={value}>{children}</WalletContext.Provider>;
 };
 
-export default { useWallet };
+export const useWallet = () => useContext(WalletContext);
