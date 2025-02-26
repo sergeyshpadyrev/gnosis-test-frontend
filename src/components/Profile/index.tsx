@@ -1,9 +1,7 @@
-import { useAuth } from '../../contexts/auth';
-import { useWallet } from '../../contexts/wallet';
+import useLogic from './logic';
 
 const Profile = () => {
-    const authentication = useAuth();
-    const wallet = useWallet();
+    const { authentication, signIn, wallet } = useLogic();
 
     const renderProfile = () => {
         if (authentication.loading || wallet.loading) return <div>Loading...</div>;
@@ -19,7 +17,7 @@ const Profile = () => {
             return (
                 <div className="flex flex-col gap-4">
                     <div>Not signed in yet</div>
-                    <button onClick={() => {}}>Sign in</button>
+                    <button onClick={signIn}>Sign in</button>
                 </div>
             );
 

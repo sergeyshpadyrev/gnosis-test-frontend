@@ -6,5 +6,6 @@ export type WalletContextType =
           canConnect: boolean;
           connect: () => Promise<void>;
           connected: boolean;
+          createSignature: () => Promise<string>;
           loading: false;
       };

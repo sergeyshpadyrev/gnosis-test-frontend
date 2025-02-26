@@ -14,11 +14,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         load();
     }, []);
 
-    const signIn = useCallback(async (message: string) => {
+    const signIn = useCallback(async (signature: string) => {
+        console.log('signIn', signature);
         setLoading(true);
+
+        try {
+        } finally {
+            setLoading(false);
+        }
     }, []);
 
-    const value: AuthContextType = useMemo(() => ({ loading, token }), [loading, token]);
+    const value: AuthContextType = useMemo(() => ({ loading, signIn, token }), [loading, token]);
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
