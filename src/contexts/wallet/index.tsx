@@ -77,7 +77,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
     }, [provider]);
 
     const value: WalletContextType = useMemo(
-        () => ({ address, balance, canConnect: !!provider, connected, connect, createSignature, loading }),
+        () => ({ address, balance, canConnect: !!provider, connected, connect, createSiweMessage, loading }),
         [address, balance, connect, connected, loading],
     );
 
