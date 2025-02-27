@@ -51,7 +51,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
         load();
     }, []);
 
-    const createSignature = useCallback(async () => {
+    const createSiweMessage = useCallback(async () => {
         if (!provider) throw new Error('No browser wallet found');
 
         const domain = 'localhost:3000'; // TODO: get from env
@@ -63,12 +63,17 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
             address: signer.address,
             chainId: 1,
             domain,
+            issuedAt: new Date().toISOString(),
             statement: 'Sign in with Ethereum',
             uri,
             version: '1',
         });
         const messageToSign = message.prepareMessage();
-        return signer.signMessage(messageToSign);
+        const signature = await signer.signMessage(messageToSign);
+        return {
+            message: messageToSign,
+            signature,
+        };
     }, [provider]);
 
     const value: WalletContextType = useMemo(

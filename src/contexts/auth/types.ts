@@ -1,3 +1,3 @@
 export type AuthContextType =
     | { loading: true }
-    | { loading: false; signIn: (signature: string) => Promise<void>; token?: string };
+    | { loading: false; signIn: (props: { message: string; signature: string }) => Promise<void>; token?: string };

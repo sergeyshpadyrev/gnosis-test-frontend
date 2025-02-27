@@ -9,8 +9,8 @@ const useLogic = () => {
     const signIn = useCallback(async () => {
         if (authentication.loading || wallet.loading) return;
 
-        const signature = await wallet.createSignature();
-        await authentication.signIn(signature);
+        const { message, signature } = await wallet.createSignature();
+        await authentication.signIn({ message, signature });
     }, [authentication, wallet]);
 
     return { authentication, signIn, wallet };

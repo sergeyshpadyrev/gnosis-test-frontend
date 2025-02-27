@@ -14,8 +14,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         load();
     }, []);
 
-    const signIn = useCallback(async (signature: string) => {
-        console.log('signIn', signature);
+    const signIn = useCallback(async (props: { message: string; signature: string }) => {
         setLoading(true);
 
         try {
