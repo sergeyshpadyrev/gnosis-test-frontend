@@ -1,6 +1,14 @@
-Wallet:
-- Connect metamask wallet
-- If no metamask, show error
 
-Profile: 
-- Sign in with wallet
+- Add PUT /profile endpoint
+- Add GET /profile endpoint
+- Make profile showing
+- Make profile editing
+- Generate JWT token in authenticate
+- Add JWT authentication to /profile endpoints
+- Connect some database to store profile data
+- Move all settings to env variables
+- Deploy frontend to Vercel
+- Deploy backend to ?
+- Write good README for frontend repo
+- Write good README for backend repo
+
