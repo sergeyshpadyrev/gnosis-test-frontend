@@ -3,6 +3,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import { WalletContextType } from './types';
 import { SiweMessage } from 'siwe';
 
+const domain = import.meta.env.VITE_API_DOMAIN;
+const uri = import.meta.env.VITE_API_URL;
 const windowWithProvider = window as typeof window & { ethereum: Eip1193Provider };
 const provider = windowWithProvider.ethereum ? new BrowserProvider(windowWithProvider.ethereum) : undefined;
 
@@ -53,9 +55,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 
     const createSiweMessage = useCallback(async () => {
         if (!provider) throw new Error('No browser wallet found');
-
-        const domain = 'localhost:3000'; // TODO: get from env
-        const uri = `http://${domain}`; // TODO: get from env
 
         const signer = await provider.getSigner();
 

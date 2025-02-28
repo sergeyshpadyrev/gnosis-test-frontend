@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useAuth } from '../contexts/auth';
 
-const baseUrl = 'http://localhost:3000'; // TODO: get from env
+const baseUrl = import.meta.env.VITE_API_URL;
 
 export const useProfileAPI = () => {
     const auth = useAuth();
