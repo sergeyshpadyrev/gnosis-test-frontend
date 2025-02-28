@@ -21,7 +21,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setToken(authStringBase64);
     }, []);
 
-    const value: AuthContextType = useMemo(() => ({ loading, signIn, token }), [loading, token]);
+    const signOut = useCallback(() => {
+        setToken(undefined);
+    }, []);
+
+    const value: AuthContextType = useMemo(() => ({ loading, signIn, signOut, token }), [loading, token]);
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 

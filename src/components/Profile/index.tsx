@@ -32,7 +32,7 @@ const Profile = () => {
                 </div>
             );
 
-        return <Info />;
+        return <Info signOut={authentication.signOut} />;
     };
 
     return (

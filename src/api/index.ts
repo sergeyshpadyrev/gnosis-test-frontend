@@ -19,7 +19,7 @@ export const useProfileAPI = () => {
     });
 
     const update = useMutation({
-        mutationFn: (props: { message: string; signature: string }) =>
+        mutationFn: (props: { bio: string; name: string }) =>
             fetch(`${baseUrl}/profile`, {
                 body: JSON.stringify(props),
                 headers,
