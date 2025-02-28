@@ -6,7 +6,7 @@ const baseUrl = 'http://localhost:3000'; // TODO: get from env
 export const useProfileAPI = () => {
     const auth = useAuth();
     const headers = {
-        Authorization: !auth.loading ? `Bearer ${auth.token}` : '',
+        Authorization: `Bearer ${auth.token}`,
         'Content-Type': 'application/json',
     };
 

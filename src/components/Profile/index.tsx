@@ -8,14 +8,14 @@ const Profile = () => {
     const wallet = useWallet();
 
     const signIn = useCallback(async () => {
-        if (authentication.loading || wallet.loading) return;
+        if (wallet.loading) return;
 
         const { message, signature } = await wallet.createSiweMessage();
         await authentication.signIn({ message, signature });
     }, [authentication, wallet]);
 
     const renderProfile = () => {
-        if (authentication.loading || wallet.loading) return <div>Loading...</div>;
+        if (wallet.loading) return <div>Loading...</div>;
         if (!wallet.connected)
             return (
                 <div className="flex flex-col gap-4">

@@ -1,15 +1,15 @@
 import { AuthContextType } from './types';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
-const AuthContext = createContext<AuthContextType>({ loading: true });
+const AuthContext = createContext<AuthContextType>({} as any);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-    const [loading, setLoading] = useState<boolean>(true);
     const [token, setToken] = useState<string>();
 
     useEffect(() => {
         const load = async () => {
-            setLoading(false);
+            const token = localStorage.getItem('token');
+            if (token) setToken(token);
         };
         load();
     }, []);
@@ -19,13 +19,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const authStringBase64 = btoa(authString);
 
         setToken(authStringBase64);
+        localStorage.setItem('token', authStringBase64);
     }, []);
 
     const signOut = useCallback(() => {
         setToken(undefined);
+        localStorage.removeItem('token');
     }, []);
 
-    const value: AuthContextType = useMemo(() => ({ loading, signIn, signOut, token }), [loading, token]);
+    const value: AuthContextType = useMemo(() => ({ signIn, signOut, token }), [token]);
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 

@@ -51,7 +51,7 @@ const Info = (props: { signOut: () => void }) => {
             {editing ? renderEditor() : renderInfo()}
             <div className="flex flex-row gap-4 justify-center">
                 <button onClick={editing ? save : edit}>{editing ? 'Save' : 'Edit'}</button>
-                <button onClick={() => props.signOut()}>Logout</button>
+                <button onClick={() => props.signOut()}>Sign out</button>
             </div>
         </div>
     );
