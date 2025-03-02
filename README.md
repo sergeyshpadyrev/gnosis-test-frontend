@@ -10,13 +10,13 @@ This is a frontend for home-take assignment for Gnosis. <br/>
 ## Installation
 
 ```sh
-yarn install
+yarn
 ```
 
 ## Running locally
 
 ```sh
-yarn dev
+yarn start
 ```
 
 ## Design
