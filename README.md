@@ -41,4 +41,4 @@ This application is built with:
 -   ethers
 -   siwe
 
-The profile saving is done in the [backend](https://github.com/sergeyshpadyrev/gnosis-test-backend).
+Main part of architecture is described in the [backend](https://github.com/sergeyshpadyrev/gnosis-test-backend) repository.
